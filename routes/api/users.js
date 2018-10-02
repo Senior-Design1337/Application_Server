@@ -5,7 +5,7 @@ const auth = require('../auth');
 const Users = mongoose.model('Users');
 
 //POST new user route (optional, everyone has access)
-router.post('/', auth.optional, (req, res, next) => {
+router.post('/signup', auth.optional, (req, res, next) => {
   const { body: { user } } = req;
 
   if(!user.email) {
@@ -24,12 +24,41 @@ router.post('/', auth.optional, (req, res, next) => {
     });
   }
 
+  if(!user.name) {
+    return res.status(422).json({
+      errors: {
+        name: 'is required',
+      },
+    });
+  }
+
   const finalUser = new Users(user);
 
   finalUser.setPassword(user.password);
 
   return finalUser.save()
     .then(() => res.json({ user: finalUser.toAuthJSON() }));
+});
+
+
+router.post('/sendPhoto', auth.optional, (req, res, next) => {
+  const { body: { user } } = req;
+
+  if(!user.photo) {
+    return res.status(422).json({
+      errors: {
+        photo: 'is required',
+      },
+    });
+  }
+
+  console.log(user.photo)
+
+  const finalUser = new Users(user);
+
+  return finalUser.save()
+    .then(() => res.json({ user: finalUser.toAuthJSON() }));
+
 });
 
 //POST login route (optional, everyone has access)
