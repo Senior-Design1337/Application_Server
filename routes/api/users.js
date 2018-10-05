@@ -42,9 +42,10 @@ router.post('/signup', auth.optional, (req, res, next) => {
 
 
 router.post('/sendPhoto', auth.optional, (req, res, next) => {
-  const { body: { user } } = req;
+  // const { body: { photo } } = req;
 
-  if(!user.photo) {
+
+  if(!req.body.photo) {
     return res.status(422).json({
       errors: {
         photo: 'is required',
@@ -52,9 +53,11 @@ router.post('/sendPhoto', auth.optional, (req, res, next) => {
     });
   }
 
-  console.log(user.photo)
 
-  const finalUser = new Users(user);
+  console.log(req.body.photo.data);
+
+  const finalUser = new Users({user:{name: req.body.name, photo: req.body.photo}});
+
 
   return finalUser.save()
     .then(() => res.json({ user: finalUser.toAuthJSON() }));

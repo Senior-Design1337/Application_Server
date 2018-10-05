@@ -80,7 +80,7 @@ app.use(require('./routes'));
 /*Configure the multer for multipart/form-data*/
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads')
+    cb(null, './uploads')
   },
   filename: function (req, file, cb) {
     // Rename uploaded file
@@ -91,11 +91,24 @@ var storage = multer.diskStorage({
 var upload = multer({storage: storage});
 
 app.post('/sendPhoto', upload.single('photo'), function (req, res, next) {
+    // const { body: { user } } = req;
+
+    // if(!user.token) {
+    //   return res.status(422).json({
+    //     errors: {
+    //       user: 'is required',
+    //     },
+    //   });
+    // }
+
+    // console.log("msg:",user);
+    // console.log("msg.token:",user.token);
+    
     console.log(req.headers);
     console.log(req.files);
     res.send('Hello POST IMG');
 })
-
+///Users/Berserkclown/Desktop/SeniorProject/passport-tutorial/app.js
 
 
 
@@ -104,7 +117,7 @@ app.post('/sendPhoto', upload.single('photo'), function (req, res, next) {
 
 //Error handlers & middlewares
 if(!isProduction) {
-  app.use((err, req, res) => {
+  app.use((req, res, err) => {
     res.status(err.status || 500);
 
     res.json({
