@@ -40,7 +40,7 @@ UsersSchema.methods.toAuthJSON = function() {
     email: this.email,
     name: this.name,
     password: "",
-    photo: "",
+    photo: this.photo,
     token: this.generateJWT(),
   };
 };

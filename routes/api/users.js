@@ -32,6 +32,17 @@ router.post('/signup', auth.optional, (req, res, next) => {
     });
   }
 
+  if(!user.photo) {
+    return res.status(422).json({
+      errors: {
+        photo: 'is required',
+      },
+    });
+  }
+
+  //store the photo as a string in mongo
+  user.photo = JSON.stringify(user.photo)
+
   const finalUser = new Users(user);
 
   finalUser.setPassword(user.password);

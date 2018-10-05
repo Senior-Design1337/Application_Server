@@ -30,13 +30,13 @@ app.use(express.static(__dirname));
 
 app.get('/photo', (req, res) => {
     //res.sendFile(__dirname+"/uploads/photo-1538483960945.png", (err, data)=>{
-    data = fs.readFile(__dirname+'/uploads/photo-1538483960945.png', (err, data) => {
+    data = fs.readFile(__dirname+'/uploads/photo-1538483134480', (err, data) => {
         if(err)
             console.log(err);
         
         res.send({
             name: 'tempname',
-            data
+            data: data.toString()
         });
     })
 });
