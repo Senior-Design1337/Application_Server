@@ -5,6 +5,53 @@ const auth = require('../auth');
 const Users = mongoose.model('Users');
 
 //POST new user route (optional, everyone has access)
+router.post('/signup+', auth.optional, (req, res, next) => {
+  const { body: { user } } = req;
+
+  if(!user.email) {
+    return res.status(422).json({
+      errors: {
+        email: 'is required',
+      },
+    });
+  }
+
+  if(!user.password) {
+    return res.status(422).json({
+      errors: {
+        password: 'is required',
+      },
+    });
+  }
+
+  if(!user.name) {
+    return res.status(422).json({
+      errors: {
+        name: 'is required',
+      },
+    });
+  }
+
+  if(!user.photo) {
+    return res.status(422).json({
+      errors: {
+        photo: 'is required',
+      },
+    });
+  }
+
+  //store the photo as a string in mongo
+  user.photo = JSON.stringify(user.photo)
+
+  const finalUser = new Users(user);
+
+  finalUser.setPassword(user.password);
+
+  return finalUser.save()
+    .then(() => res.json({ user: finalUser.toAuthJSON() }));
+});
+
+//POST new user route (optional, everyone has access)
 router.post('/signup', auth.optional, (req, res, next) => {
   const { body: { user } } = req;
 
@@ -42,9 +89,10 @@ router.post('/signup', auth.optional, (req, res, next) => {
 
 
 router.post('/sendPhoto', auth.optional, (req, res, next) => {
-  const { body: { user } } = req;
+  // const { body: { photo } } = req;
 
-  if(!user.photo) {
+
+  if(!req.body.photo) {
     return res.status(422).json({
       errors: {
         photo: 'is required',
@@ -52,9 +100,11 @@ router.post('/sendPhoto', auth.optional, (req, res, next) => {
     });
   }
 
-  console.log(user.photo)
 
-  const finalUser = new Users(user);
+  console.log(req.body.photo.data);
+
+  const finalUser = new Users({user:{name: req.body.name, photo: req.body.photo}});
+
 
   return finalUser.save()
     .then(() => res.json({ user: finalUser.toAuthJSON() }));
