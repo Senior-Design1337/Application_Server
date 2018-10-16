@@ -36,7 +36,7 @@ app.get('/photo', (req, res) => {
         
         res.send({
             name: 'tempname',
-            data: data.toString()
+            data: new Buffer(data).toString('base64')
         });
     })
 });

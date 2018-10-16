@@ -69,7 +69,7 @@ router.post('/signup+', auth.optional, (req, res, next) => {
   }
 
   //store the photo as a string in mongo
-  user.photo = JSON.stringify(user.photo)
+  user.photo = JSON.stringify(new Buffer(user.photo).toString('base64'))
 
   const finalUser = new Users(user);
 
@@ -129,9 +129,9 @@ router.post('/sendPhoto', auth.optional, (req, res, next) => {
   }
 
 
-  console.log(req.body.photo.data);
+  // console.log(req.body.photo.data);
 
-  const finalUser = new Users({user:{name: req.body.name, photo: req.body.photo}});
+  const finalUser = new Users({user:{name: req.body.name, photo: new Buffer(req.body.photo).toString('base64')}});
 
 
   return finalUser.save()
