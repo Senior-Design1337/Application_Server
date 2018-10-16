@@ -23,7 +23,7 @@ function serveStaticFile (res, path , contentType , responseCode ) {
 
 //test Model_Ouput.JSON
 router.get('/model_data', (req, res) => {
-  res.sendFile("/Users/Berserkclown/Desktop/SeniorProject/passport-tutorial/models/model_output.JSON", (err, data)=>{
+  res.sendFile(__dirname+'/test_models/model_output.JSON', (err, data)=>{
   // data = fs.readFile(__dirname+'/models/model_output.JSON', (err, data) => {
       if(err)
           console.log(err);
