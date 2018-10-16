@@ -29,7 +29,8 @@ app.use(bodyParser.urlencoded({
   parameterLimit: 99999999999
 }));
 app.use(bodyParser.json({limit: '50mb'}));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'))
+//app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'passport-tutorial', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
 
 if(!isProduction) {

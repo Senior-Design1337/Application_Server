@@ -3,6 +3,34 @@ const passport = require('passport');
 const router = require('express').Router();
 const auth = require('../auth');
 const Users = mongoose.model('Users');
+fs = require("fs");
+
+function serveStaticFile (res, path , contentType , responseCode ) {
+  if (!responseCode) responseCode = 200 ;
+  fs.readFile (__dirname +'/public'+path, function (err,data) {
+  if (err)
+  {
+      res.writeHead ( 500 , { 'Content-Tye' : 'text/plain' });
+      res.end ( '500 - Internal Error' );
+  }
+  else
+  {
+      res.writeHead ( responseCode , { 'Content-Type' : contentType });
+      res.end (data);
+  }
+  });
+}
+
+//test Model_Ouput.JSON
+router.get('/model_data', (req, res) => {
+  res.sendFile("/Users/Berserkclown/Desktop/SeniorProject/passport-tutorial/models/model_output.JSON", (err, data)=>{
+  // data = fs.readFile(__dirname+'/models/model_output.JSON', (err, data) => {
+      if(err)
+          console.log(err);
+      
+  //     res.send(data);
+  })
+});
 
 //POST new user route (optional, everyone has access)
 router.post('/signup+', auth.optional, (req, res, next) => {
