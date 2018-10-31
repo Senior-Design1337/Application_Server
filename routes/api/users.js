@@ -159,6 +159,14 @@ router.post('/login', auth.optional, (req, res, next) => {
     });
   }
 
+  if(!user.name) {
+    return res.status(422).json({
+      errors: {
+        name: 'is required',
+      },
+    });
+  }
+
   return passport.authenticate('local', { session: false }, (err, passportUser, info) => {
     if(err) {
       return next(err);
