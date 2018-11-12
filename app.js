@@ -24,9 +24,9 @@ var upload = multer({ dest: '/tmp/'});
 app.use(cors());
 app.use(require('morgan')('dev'));
 app.use(bodyParser.urlencoded({ 
-  extended: true, 
-  limit: '50mb',
-  parameterLimit: 99999999999
+  extended: false, 
+  // limit: '50mb',
+  // parameterLimit: 99999999999
 }));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(express.static('public'))
