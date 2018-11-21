@@ -3,6 +3,7 @@ import os
 import ast
 import sys
 import numpy as np
+import re
 
 
 
@@ -17,6 +18,9 @@ def getnparray_at(arr, indx):
     return np.array(list(arr.values())[indx][1:-1].split())
 
 try:
+
+    regex = re.compile(r"/routes.*$")
+
     # print("hello life")
     # print(toNParray(sys.argv[1]))
     # # sys.stdout.flush()
@@ -34,7 +38,7 @@ try:
 
     # with open ('encodings', 'r') as f:
     # set a dynamic absolute path since relative paths do not work in Nodejs (theory: paths are relative to the directory from which the server is running)
-    with open (os.path.abspath(__file__).rsplit('/',1)[0] + '/encodings', 'r') as f:
+    with open (regex.sub('/models/encodings', os.path.abspath(__file__)), 'r') as f:
         # inputdata = f.read().replace('\n', '')
         known_data = ast.literal_eval(f.read().replace('\n', ''))
         # known_data = ast.literal_eval(inputdata)
@@ -89,4 +93,4 @@ try:
     # with open ('response', 'w') as f:
     #     f.write(name)
 
-except Exception as e: print(e, os.path.abspath(__file__))
+except Exception as e: print(e, os.path.abspath(__file__), regex.sub('/models/encodings', os.path.abspath(__file__)), sep='\n')
