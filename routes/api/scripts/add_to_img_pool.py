@@ -60,5 +60,5 @@ try:
 
     print("updated the list of known encodings...")
     sys.stdout.flush()
-    
+
 except Exception as e: print(e, os.path.abspath(__file__), sep='\n')
