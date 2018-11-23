@@ -3,10 +3,24 @@ const passport = require('passport');
 const router = require('express').Router();
 const auth = require('../auth');
 const Users = mongoose.model('Users');
+var admin = require('firebase-admin');
+var serviceAccount = require("/Users/Berserkclown/Desktop/SeniorProject/Application_Server/sendezproj-firebase-adminsdk-2pq60-a39f6f2ee8.json");
 
 const cp = require("child_process");
 
 fs = require("fs");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://sendezproj.firebaseio.com"
+});
+
+// Get a database reference to our posts
+var db = admin.database();
+var ref = db.ref("j");
+
+
+
 
 function serveStaticFile (res, path , contentType , responseCode ) {
   if (!responseCode) responseCode = 200 ;
@@ -23,6 +37,16 @@ function serveStaticFile (res, path , contentType , responseCode ) {
   }
   });
 }
+
+router.get('/fb_realtime_data', (req, res) => {
+    // Attach an asynchronous callback to read the data at our posts reference
+  ref.once("value", function(snapshot) {
+    console.log(snapshot.val());
+    res.send(snapshot.val())
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+  });
+})
 
 // request json by sending User ID
 router.get('/dbdatabyid', (req, res) => {
