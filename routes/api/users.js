@@ -4,7 +4,7 @@ const router = require('express').Router();
 const auth = require('../auth');
 const Users = mongoose.model('Users');
 var admin = require('firebase-admin');
-var serviceAccount = require("/Users/Berserkclown/Desktop/SeniorProject/Application_Server/sendezproj-firebase-adminsdk-2pq60-a39f6f2ee8.json");
+var serviceAccount = require("/Users/Berserkclown/Downloads/sendezproj-firebase-adminsdk-2pq60-2fbb829061.json");
 
 const cp = require("child_process");
 
