@@ -17,7 +17,7 @@ admin.initializeApp({
 
 // Get a database reference to our posts
 var db = admin.database();
-var ref = db.ref("j");
+var ref = db.ref("BCE");
 
 
 
@@ -50,8 +50,8 @@ ref.on("value", function(snapshot) {
 
       //SEND DATA
       // This registration token comes from the client FCM SDKs.
-      var registrationToken = 'cavpQzvnQqM:APA91bE1N5ecoWIt3gB13YVwGH7-2zlnKC2f1oDRoow7v1MPICiJBZ4y1TYwFqSaRiEKSqi4toPDpwOhLSSTohZQyDuIBV-098XOG0jpZRnK6kBLjuytl7xDBwkXZQNeeH-AH3MwOQHF';
-
+      // var registrationToken = 'cavpQzvnQqM:APA91bE1N5ecoWIt3gB13YVwGH7-2zlnKC2f1oDRoow7v1MPICiJBZ4y1TYwFqSaRiEKSqi4toPDpwOhLSSTohZQyDuIBV-098XOG0jpZRnK6kBLjuytl7xDBwkXZQNeeH-AH3MwOQHF';
+      var registrationToken = snapshot.val().token;
       
       // See documentation on defining a message payload.
       var message = {
