@@ -39,8 +39,8 @@ try:
     # with open ('encodings', 'r') as f:
     # set a dynamic absolute path since relative paths do not work in Nodejs (theory: paths are relative to the directory from which the server is running)
     with open (regex.sub('/models/encodings', os.path.abspath(__file__)), 'r') as f:
-        # inputdata = f.read().replace('\n', '')
-        known_data = ast.literal_eval(f.read().replace('\n', ''))
+        inputdata = f.read().replace('\n', '')
+        known_data = ast.literal_eval(inputdata.replace(',', ''))
         # known_data = ast.literal_eval(inputdata)
         # known_data = ast.literal_eval(inputdata)
 
