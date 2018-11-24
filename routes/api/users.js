@@ -33,67 +33,65 @@ ref.on("value", function(snapshot) {
   console.log(snapshot.val().facialfeature)
   // const pythonProcess = cp.spawn('python3.6',[__dirname + '/scripts/process_picture.py', '[-5.02297580e-02  1.26760080e-01  3.77465747e-02 -2.10738834e-02\n -9.86030772e-02 -3.23209167e-03 -3.80280092e-02 -8.08492303e-02\n  1.28862917e-01 -1.20417327e-01  8.24542195e-02 -1.01172492e-01\n -1.74008071e-01  3.29966657e-02 -3.06838341e-02  1.27440408e-01\n -1.97433874e-01 -6.67174160e-02 -1.28294557e-01 -1.14508331e-01\n  6.80248067e-02  1.14857338e-01 -2.19074786e-02  8.76902044e-03\n -1.70026362e-01 -3.26539963e-01 -9.22631770e-02 -1.50439903e-01\n  5.18140458e-02 -7.32299984e-02 -4.99619544e-02 -4.58791927e-02\n -1.61716744e-01 -1.67583600e-02  6.50386810e-02  2.09987164e-04\n -5.70341274e-02 -5.61766848e-02  8.86950791e-02  3.83684486e-02\n -1.08378172e-01  2.83726454e-02  7.65267909e-02  2.80950844e-01\n  1.24665245e-01  1.15483917e-01 -1.78522021e-02 -1.07932150e-01\n  1.29320234e-01 -2.20598400e-01  1.54873222e-01  7.27170333e-02\n  3.19188982e-02  1.24173850e-01  1.37470573e-01 -1.67170733e-01\n  6.39430881e-02  6.40481412e-02 -2.40873784e-01  1.51794732e-01\n  1.20433882e-01 -1.30222552e-02 -4.13024500e-02  1.78492963e-02\n  2.42216825e-01  1.44766659e-01 -9.55065861e-02 -1.02297872e-01\n  1.43553019e-01 -1.78445071e-01  3.86314467e-03 -5.85360192e-02\n -5.43066412e-02 -1.65239275e-01 -2.25232199e-01  3.68878394e-02\n  5.13320625e-01  2.15302616e-01 -1.89862788e-01 -2.17002872e-02\n -4.64821719e-02 -4.36704159e-02  2.10187718e-01  1.00420259e-01\n -1.06857866e-01 -1.66975409e-02 -2.87751760e-02  1.38402939e-01\n  1.78730458e-01 -4.93616611e-02 -5.98646328e-02  2.49440044e-01\n  3.64733487e-03 -1.65851563e-02  1.36605231e-02 -5.35424501e-02\n -1.84895724e-01 -1.48202106e-02 -9.82353017e-02 -3.83635387e-02\n  6.42992556e-02 -5.82239330e-02 -1.50630325e-02  1.34881467e-01\n -1.34747371e-01  1.91140115e-01  4.59303483e-02 -7.40733445e-02\n -2.92570740e-02  4.87168878e-02 -1.71608478e-01 -3.60082686e-02\n  1.36685371e-01 -2.06164867e-01  2.09368780e-01  1.28074378e-01\n  7.60017484e-02  1.76120102e-01  2.20122114e-02  4.47442606e-02\n  8.90297517e-02 -6.84083998e-03 -1.69876680e-01 -5.69036454e-02\n  7.57844597e-02 -5.72012365e-03  5.06599396e-02  3.85830402e-02]']);
   
-  const pythonProcess = cp.spawn('python3',[__dirname + '/scripts/process_picture.py', snapshot.val().facialfeature]);
-  
-  console.log("called script");
+  if(snapshot.val().facialfeature != null){
 
-  console.log("waiting for output");
-  pythonProcess.stdout.on('data', (data) => {
-    console.log("printing output...")
-    console.log(data.toString().replace(/^\s+|\s+$/g, '')); // retrieved ID trimmed of spaces and newlines
-    // res.write(data);
-    Users.findById(data.toString().replace(/^\s+|\s+$/g, ''), function(error, user) { 
-      console.log("inside findById")
-      console.log(user);
-      
-      // return res.json(user);
+    const pythonProcess = cp.spawn('python3',[__dirname + '/scripts/process_picture.py', snapshot.val().facialfeature]);
+    
+    console.log("called script");
 
-      //SEND DATA
-      // This registration token comes from the client FCM SDKs.
-      // var registrationToken = 'cavpQzvnQqM:APA91bE1N5ecoWIt3gB13YVwGH7-2zlnKC2f1oDRoow7v1MPICiJBZ4y1TYwFqSaRiEKSqi4toPDpwOhLSSTohZQyDuIBV-098XOG0jpZRnK6kBLjuytl7xDBwkXZQNeeH-AH3MwOQHF';
-      var registrationToken = snapshot.val().token;
-      
-      // See documentation on defining a message payload.
-      var message = {
-        data: {
-          // score: '850',
-          // time: '2:45'
-          // "user": user.toString(),
-          'email': user.email,
-          'name': user.name,
-          'photo': user.photo,
-
-        },
-        token: registrationToken
-      };
-
-      // if (user != null)
-      //   message.data = {
+    console.log("waiting for output");
+    pythonProcess.stdout.on('data', (data) => {
+      console.log("printing output...")
+      console.log(data.toString().replace(/^\s+|\s+$/g, '')); // retrieved ID trimmed of spaces and newlines
+      // res.write(data);
+      Users.findById(data.toString().replace(/^\s+|\s+$/g, ''), function(error, user) { 
+        console.log("inside findById")
+        console.log(user);
         
-      //   }
-      
+        // return res.json(user);
 
-      // Send a message to the device corresponding to the provided
-      // registration token.
-      admin.messaging().send(message)
-        .then((response) => {
-        // Response is a message ID string.
-        console.log('Successfully sent message:', response);
+        //SEND DATA
+        // This registration token comes from the client FCM SDKs.
+        // var registrationToken = 'cavpQzvnQqM:APA91bE1N5ecoWIt3gB13YVwGH7-2zlnKC2f1oDRoow7v1MPICiJBZ4y1TYwFqSaRiEKSqi4toPDpwOhLSSTohZQyDuIBV-098XOG0jpZRnK6kBLjuytl7xDBwkXZQNeeH-AH3MwOQHF';
+        var registrationToken = snapshot.val().token;
+        
+        // See documentation on defining a message payload.
+        var message = {
+          data: {
+            // score: '850',
+            // time: '2:45'
+            // "user": user.toString(),
+            'email': user.email,
+            'name': user.name,
+            'photo': user.photo,
+
+          },
+          token: registrationToken
+        };
+
+        // if (user != null)
+        //   message.data = {
+          
+        //   }
+        
+
+        // Send a message to the device corresponding to the provided
+        // registration token.
+        admin.messaging().send(message)
+          .then((response) => {
+          // Response is a message ID string.
+          console.log('Successfully sent message:', response);
+        })
+        .catch((error) => {
+          console.log('Error sending message:', error);
+        });
+
       })
-      .catch((error) => {
-        console.log('Error sending message:', error);
-      });
-
-    })
-    // res.end();
-  });
+      // res.end();
+    });
 
 
-
-
-
-
-
+  }
 
 
 
