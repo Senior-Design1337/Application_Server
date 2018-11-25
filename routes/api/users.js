@@ -36,7 +36,7 @@ ref.on("value", function(snapshot) {
   
   if(snapshot.val().FacialFeatures != null){
 
-    const pythonProcess = cp.spawn('python3.6',[__dirname + '/scripts/process_picture.py', snapshot.val().FacialFeatures]);
+    const pythonProcess = cp.spawn('python3',[__dirname + '/scripts/process_picture.py', snapshot.val().FacialFeatures]);
     
     console.log("called script");
 
