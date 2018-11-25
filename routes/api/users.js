@@ -59,7 +59,8 @@ ref.on("value", function(snapshot) {
               // score: '850',
               // time: '2:45'
               // "user": user.toString(),
-              'status': "No match found in the database"
+              'status': "No match found in the database",
+              'name': "Unknown"
 
             },
             token: registrationToken
@@ -98,6 +99,7 @@ ref.on("value", function(snapshot) {
               'email': user.email,
               'name': user.name,
               'photo': user.photo,
+              'status': "Match Found",
 
             },
             token: registrationToken
