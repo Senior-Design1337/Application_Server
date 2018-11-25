@@ -36,58 +36,87 @@ ref.on("value", function(snapshot) {
   
   if(snapshot.val().FacialFeatures != null){
 
-    const pythonProcess = cp.spawn('python3',[__dirname + '/scripts/process_picture.py', snapshot.val().FacialFeatures]);
+    const pythonProcess = cp.spawn('python3.6',[__dirname + '/scripts/process_picture.py', snapshot.val().FacialFeatures]);
     
     console.log("called script");
 
     console.log("waiting for output");
     pythonProcess.stdout.on('data', (data) => {
       console.log("printing output...")
-      console.log(data.toString().replace(/^\s+|\s+$/g, '')); // retrieved ID trimmed of spaces and newlines
+      var id_result = data.toString().replace(/^\s+|\s+$/g, '')
+      console.log(id_result); // retrieved ID trimmed of spaces and newlines
       // res.write(data);
-      Users.findById(data.toString().replace(/^\s+|\s+$/g, ''), function(error, user) { 
-        console.log("inside findById")
-        console.log(user);
-        
-        // return res.json(user);
 
-        //SEND DATA
-        // This registration token comes from the client FCM SDKs.
-        // var registrationToken = 'cavpQzvnQqM:APA91bE1N5ecoWIt3gB13YVwGH7-2zlnKC2f1oDRoow7v1MPICiJBZ4y1TYwFqSaRiEKSqi4toPDpwOhLSSTohZQyDuIBV-098XOG0jpZRnK6kBLjuytl7xDBwkXZQNeeH-AH3MwOQHF';
-        var registrationToken = snapshot.val().Token;
-        
-        // See documentation on defining a message payload.
-        var message = {
-          data: {
-            // score: '850',
-            // time: '2:45'
-            // "user": user.toString(),
-            'email': user.email,
-            'name': user.name,
-            'photo': user.photo,
-
-          },
-          token: registrationToken
-        };
-
-        // if (user != null)
-        //   message.data = {
+      if(id_result == "Unknown"){
+          //SEND DATA
+          // This registration token comes from the client FCM SDKs.
+          // var registrationToken = 'cavpQzvnQqM:APA91bE1N5ecoWIt3gB13YVwGH7-2zlnKC2f1oDRoow7v1MPICiJBZ4y1TYwFqSaRiEKSqi4toPDpwOhLSSTohZQyDuIBV-098XOG0jpZRnK6kBLjuytl7xDBwkXZQNeeH-AH3MwOQHF';
+          var registrationToken = snapshot.val().Token;
           
-        //   }
-        
+          // See documentation on defining a message payload.
+          var message = {
+            data: {
+              // score: '850',
+              // time: '2:45'
+              // "user": user.toString(),
+              'status': "No match found in the database"
 
-        // Send a message to the device corresponding to the provided
-        // registration token.
-        admin.messaging().send(message)
-          .then((response) => {
-          // Response is a message ID string.
-          console.log('Successfully sent message:', response);
+            },
+            token: registrationToken
+          };
+          
+
+          // Send a message to the device corresponding to the provided
+          // registration token.
+          admin.messaging().send(message)
+            .then((response) => {
+            // Response is a message ID string.
+            console.log('Successfully sent message:', response);
+          })
+          .catch((error) => {
+            console.log('Error sending message:', error);
+          });
+      }
+      else{
+        Users.findById(id_result, function(error, user) { 
+          console.log("inside findById")
+          console.log(user);
+          
+          // return res.json(user);
+
+          //SEND DATA
+          // This registration token comes from the client FCM SDKs.
+          // var registrationToken = 'cavpQzvnQqM:APA91bE1N5ecoWIt3gB13YVwGH7-2zlnKC2f1oDRoow7v1MPICiJBZ4y1TYwFqSaRiEKSqi4toPDpwOhLSSTohZQyDuIBV-098XOG0jpZRnK6kBLjuytl7xDBwkXZQNeeH-AH3MwOQHF';
+          var registrationToken = snapshot.val().Token;
+          
+          // See documentation on defining a message payload.
+          var message = {
+            data: {
+              // score: '850',
+              // time: '2:45'
+              // "user": user.toString(),
+              'email': user.email,
+              'name': user.name,
+              'photo': user.photo,
+
+            },
+            token: registrationToken
+          };
+          
+
+          // Send a message to the device corresponding to the provided
+          // registration token.
+          admin.messaging().send(message)
+            .then((response) => {
+            // Response is a message ID string.
+            console.log('Successfully sent message:', response);
+          })
+          .catch((error) => {
+            console.log('Error sending message:', error);
+          });
+
         })
-        .catch((error) => {
-          console.log('Error sending message:', error);
-        });
-
-      })
+      }
       // res.end();
     });
 
