@@ -172,25 +172,51 @@ router.get('/dbdatabyid', (req, res) => {
 // request json by sending face encoding
 router.post('/face_search', (req, res, next) => {
 
+  //create a date object to time the script
+  var timing_date = new Date();
+
   console.log(req.body.facialfeature)
-  // const pythonProcess = cp.spawn('python3.6',[__dirname + '/scripts/process_picture.py', '[-5.02297580e-02  1.26760080e-01  3.77465747e-02 -2.10738834e-02\n -9.86030772e-02 -3.23209167e-03 -3.80280092e-02 -8.08492303e-02\n  1.28862917e-01 -1.20417327e-01  8.24542195e-02 -1.01172492e-01\n -1.74008071e-01  3.29966657e-02 -3.06838341e-02  1.27440408e-01\n -1.97433874e-01 -6.67174160e-02 -1.28294557e-01 -1.14508331e-01\n  6.80248067e-02  1.14857338e-01 -2.19074786e-02  8.76902044e-03\n -1.70026362e-01 -3.26539963e-01 -9.22631770e-02 -1.50439903e-01\n  5.18140458e-02 -7.32299984e-02 -4.99619544e-02 -4.58791927e-02\n -1.61716744e-01 -1.67583600e-02  6.50386810e-02  2.09987164e-04\n -5.70341274e-02 -5.61766848e-02  8.86950791e-02  3.83684486e-02\n -1.08378172e-01  2.83726454e-02  7.65267909e-02  2.80950844e-01\n  1.24665245e-01  1.15483917e-01 -1.78522021e-02 -1.07932150e-01\n  1.29320234e-01 -2.20598400e-01  1.54873222e-01  7.27170333e-02\n  3.19188982e-02  1.24173850e-01  1.37470573e-01 -1.67170733e-01\n  6.39430881e-02  6.40481412e-02 -2.40873784e-01  1.51794732e-01\n  1.20433882e-01 -1.30222552e-02 -4.13024500e-02  1.78492963e-02\n  2.42216825e-01  1.44766659e-01 -9.55065861e-02 -1.02297872e-01\n  1.43553019e-01 -1.78445071e-01  3.86314467e-03 -5.85360192e-02\n -5.43066412e-02 -1.65239275e-01 -2.25232199e-01  3.68878394e-02\n  5.13320625e-01  2.15302616e-01 -1.89862788e-01 -2.17002872e-02\n -4.64821719e-02 -4.36704159e-02  2.10187718e-01  1.00420259e-01\n -1.06857866e-01 -1.66975409e-02 -2.87751760e-02  1.38402939e-01\n  1.78730458e-01 -4.93616611e-02 -5.98646328e-02  2.49440044e-01\n  3.64733487e-03 -1.65851563e-02  1.36605231e-02 -5.35424501e-02\n -1.84895724e-01 -1.48202106e-02 -9.82353017e-02 -3.83635387e-02\n  6.42992556e-02 -5.82239330e-02 -1.50630325e-02  1.34881467e-01\n -1.34747371e-01  1.91140115e-01  4.59303483e-02 -7.40733445e-02\n -2.92570740e-02  4.87168878e-02 -1.71608478e-01 -3.60082686e-02\n  1.36685371e-01 -2.06164867e-01  2.09368780e-01  1.28074378e-01\n  7.60017484e-02  1.76120102e-01  2.20122114e-02  4.47442606e-02\n  8.90297517e-02 -6.84083998e-03 -1.69876680e-01 -5.69036454e-02\n  7.57844597e-02 -5.72012365e-03  5.06599396e-02  3.85830402e-02]']);
   
+<<<<<<< HEAD
   const pythonProcess = cp.spawn('python3.6',[__dirname + '/scripts/process_picture.py', req.body.facialfeature]);
   
   // const pythonProcess = cp.spawn('python3.6',[__dirname + '/scripts/printname.py']);
   
 
+=======
+  //script call
+  const pythonProcess = cp.spawn('python3',[__dirname + '/scripts/process_picture.py', req.body.facialfeature]);
+  
+  //storing time of script 
+  var script_called_time = timing_date.getTime();
+  var script_completed_time;
+  var response_sent_time;
+
+  
+>>>>>>> 94c88c55f12beffa89dd8f4aa3303c71c101c51e
   console.log("called script");
 
   console.log("waiting for output");
   pythonProcess.stdout.on('data', (data) => {
+
+    //upon script completion log time again
+    script_completed_time = timing_date.getTime();
+
+
     console.log("printing output...")
     console.log(data.toString().replace(/^\s+|\s+$/g, '')); // retrieved ID trimmed of spaces and newlines
     // res.write(data);
     Users.findById(data.toString().replace(/^\s+|\s+$/g, ''), function(error, user) { 
+      
       console.log("inside findById")
       console.log(user);
-      
+
+      //print the timing markers
+      console.log("Time taken to complete script: " + (script_completed_time-script_called_time));
+      response_sent_time = timing_date.getTime();
+      console.log("Time taken to send the response: " + (response_sent_time-script_called_time));
+
+      //return the response 
       return res.json(user);
     })
     // res.end();
@@ -198,14 +224,14 @@ router.post('/face_search', (req, res, next) => {
 })
 
 // request user name by sending user ID
-router.get('/callscript', (req, res) => {
 
+router.get('/callscript', (req, res) => {
+  ///DEPRECATED FUNCTION
   console.log("got request");
   console.log("finsihed requiring");
   const pythonProcess = cp.spawn('python3.6',[__dirname + '/scripts/process_picture.py', '[-0.09166827  0.14425197  0.04078295 -0.03495655 -0.09622052  0.04099583\n  0.02662841 -0.17784461  0.12904914 -0.1388557   0.18857408 -0.02269836\n -0.31221309 -0.10909825  0.05068425  0.11542154 -0.11377509 -0.12412596\n -0.18914004 -0.11264455 -0.02938333  0.04681868 -0.0251527  -0.04514992\n -0.08941696 -0.25926712 -0.10442628 -0.05142256  0.01757953 -0.08665138\n  0.0842521   0.06147777 -0.20893137 -0.08608527 -0.05323231  0.03884585\n -0.05924495 -0.04575182  0.07029408  0.03683743 -0.14352694 -0.04711682\n -0.02806153  0.23502387  0.23772253  0.01743989 -0.00103552 -0.09930864\n  0.09209329 -0.25414282 -0.02423913  0.10893594  0.04156319  0.1021982\n  0.05787547 -0.09143835  0.01682046  0.13410327 -0.16470394  0.0794233\n  0.04785687 -0.2341857  -0.0453307  -0.06419529  0.09106698  0.08091357\n -0.0099361  -0.13200559  0.22118577 -0.18348159 -0.13668175  0.05446102\n -0.06471929 -0.15043966 -0.3472513   0.00623041  0.37149131  0.18573408\n -0.15642616 -0.05463828 -0.04825759 -0.00336403  0.09292394  0.07982755\n  0.0016217  -0.12219425 -0.07368944  0.03052378  0.25506455 -0.07061901\n -0.0461551   0.24331255 -0.03288478 -0.03834173  0.02473532  0.03230941\n -0.05248236 -0.01390602 -0.09815697 -0.06522249  0.06731446 -0.14231357\n  0.00802742  0.08258242 -0.11984105  0.21042551  0.01114251  0.01666296\n -0.00154421 -0.11873214 -0.02308807  0.06714715  0.23481898 -0.16937561\n  0.25159791  0.23491265 -0.06884868  0.13148509  0.03437761  0.12037931\n -0.06310897 -0.08327458 -0.14112675 -0.16643775  0.02053617  0.02646331\n  0.01319711  0.01977976]']);
-  // const pythonProcess = cp.spawn('python3.6', [__dirname + '/scripts/testpi.py']);
-  // console.log(__dirname+'/test_models');
-  // const pythonProcess = cp.spawn('ls', [__dirname+'/test_models']);
+  
+
   console.log("called script");
 
   console.log("waiting for output");
@@ -223,9 +249,7 @@ router.get('/adduserimg', (req, res) => {
   console.log("got request");
   console.log("finsihed requiring");
   const pythonProcess = cp.spawn('python3.6',[__dirname + '/scripts/add_to_img_pool.py']);
-  // const pythonProcess = cp.spawn('python3.6', [__dirname + '/scripts/testpi.py']);
-  // console.log(__dirname+'/test_models');
-  // const pythonProcess = cp.spawn('ls', [__dirname+'/test_models']);
+  
   console.log("called script");
 
   console.log("waiting for output");
