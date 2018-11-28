@@ -4,6 +4,7 @@ import ast
 import sys
 import numpy as np
 import re
+import pickle
 
 
 
@@ -17,8 +18,8 @@ def toNParray(stringarr):
 def getnparray_at(arr, indx):
     return np.array(list(arr.values())[indx][1:-1].split())
 
-if True:
-# try:
+# if True:
+try:
 
     regex = re.compile(r"/routes.*$")
 
@@ -37,14 +38,19 @@ if True:
     # keys = known_face_names/IDs
     # values = known_face_encodings
 
-    # with open ('encodings', 'r') as f:
-    # set a dynamic absolute path since relative paths do not work in Nodejs (theory: paths are relative to the directory from which the server is running)
-    with open (regex.sub('/models/encodings', os.path.abspath(__file__)), 'r') as f:
-        inputdata = f.read().replace('\n', '')
-        known_data = ast.literal_eval(inputdata)#.replace(',', ''))
-        # known_data = ast.literal_eval(inputdata)
-        # known_data = ast.literal_eval(inputdata)
+    # # with open ('encodings', 'r') as f:
+    # # set a dynamic absolute path since relative paths do not work in Nodejs (theory: paths are relative to the directory from which the server is running)
+    # with open (regex.sub('/models/encodings', os.path.abspath(__file__)), 'r') as f:
+    #     inputdata = f.read().replace('\n', '')
+    #     known_data = ast.literal_eval(inputdata)#.replace(',', ''))
+    #     # known_data = ast.literal_eval(inputdata)
+    #     # known_data = ast.literal_eval(inputdata)
 
+    data = pickle.loads(open(regex.sub('/models/new_encodings.pickle', os.path.abspath(__file__)), 'rb').read())
+
+    # print(data)
+
+    # known_data = data["encodings"]
     # print(os.path.abspath(__file__).rsplit('/',1))
     # print(inputdata)
     # sys.stdout.flush()
@@ -79,14 +85,15 @@ if True:
 
     # for face_encoding in face_encodings:
     # See if the face is a match for the known face(s)
-    matches = face_recognition.compare_faces(getnparray(known_data), new_face_encoding, 0.5)
+    matches = face_recognition.compare_faces(data["encodings"], new_face_encoding, 0.5)
     name = "Unknown"
     # name = "WelcomeStranger"
 
     # If a match was found in known_face_encodings, just use the first one.
     if True in matches:
         first_match_index = matches.index(True)
-        name = list(known_data.keys())[first_match_index] # name can be swapped with profile_ID
+        # name = list(known_data.keys())[first_match_index] # name can be swapped with profile_ID
+        name = data["names"][first_match_index]
 
     print(name)
     sys.stdout.flush()
@@ -94,4 +101,4 @@ if True:
     # with open ('response', 'w') as f:
     #     f.write(name)
 
-# except Exception as e: print(e, os.path.abspath(__file__), regex.sub('/models/encodings', os.path.abspath(__file__)), sep='\n')
+except Exception as e: print(e, os.path.abspath(__file__), regex.sub('/models/encodings', os.path.abspath(__file__)), sep='\n')
