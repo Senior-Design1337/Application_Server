@@ -177,23 +177,11 @@ router.post('/face_search', (req, res, next) => {
 
   console.log(req.body.facialfeature)
   
-<<<<<<< HEAD
   const pythonProcess = cp.spawn('python3.6',[__dirname + '/scripts/process_picture.py', req.body.facialfeature]);
   
   // const pythonProcess = cp.spawn('python3.6',[__dirname + '/scripts/printname.py']);
   
 
-=======
-  //script call
-  const pythonProcess = cp.spawn('python3',[__dirname + '/scripts/process_picture.py', req.body.facialfeature]);
-  
-  //storing time of script 
-  var script_called_time = timing_date.getTime();
-  var script_completed_time;
-  var response_sent_time;
-
-  
->>>>>>> 94c88c55f12beffa89dd8f4aa3303c71c101c51e
   console.log("called script");
 
   console.log("waiting for output");
