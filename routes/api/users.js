@@ -283,6 +283,40 @@ router.post('/download_img', (req,res) => {
 })
 
 
+router.post('/friendreq', (req, res) => {
+
+  // get array of MACs
+  mac_arr = req.body.mac
+
+  function getprofiles(mac) {
+    
+    Users.find({MAC: mac_arr}, function(error, user) { 
+      return [user["title"], user["company"]]
+    });
+  }
+
+
+  // Query all MACs and get user profiles
+  let titlexcomp = eval(mac_arr).map(getprofiles)   
+  titlexcomp = titlexcomp.toString()    // "a,b,c" nor "['a', 'b', 'c']"
+
+  // call .py script to get one ID back
+  const pythonProcess = cp.spawn(pythonversion,[__dirname + '/scripts/recommend_friend.py', ]);
+    
+  console.log("called script");
+
+    
+  console.log("waiting for output");
+  // send user profile to user
+  pythonProcess.stdout.on('data', (data) => {
+    console.log("printing output...")
+    console.log(data.toString());
+    res.write(data);
+    res.end('end');
+  });
+})
+
+
 //change ref link in here, and application ///// make function an asynchronous trigger
 router.get('/save_img', (req, res) => {
 
