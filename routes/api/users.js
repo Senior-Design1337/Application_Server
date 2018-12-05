@@ -21,7 +21,7 @@ admin.initializeApp({
 
 // Get a database reference to our posts
 var db = admin.database();
-var ref = db.ref();
+var ref = db.ref("BCE");
 var ref_signup = db.ref("photo_signup");
 
 // const pythonversion = "python3.6"
