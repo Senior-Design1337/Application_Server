@@ -21,11 +21,11 @@ admin.initializeApp({
 
 // Get a database reference to our posts
 var db = admin.database();
-var ref = db.ref("BCE");
+var ref = db.ref();
 var ref_signup = db.ref("photo_signup");
 
-// const pythonversion = "python3.6"
-const pythonversion = "python3"
+const pythonversion = "python3.6"
+// const pythonversion = "python3"
 
 ref_signup.on("value", snapshot => {
 
@@ -102,7 +102,7 @@ ref.on("value", function(snapshot) {
       console.log(id_result); // retrieved ID trimmed of spaces and newlines
       // res.write(data);
 
-      if(id_result == "Unknown"){
+      if(id_result == "Unknown" || id_result == null || id_result == undefined){
           //SEND DATA
           // This registration token comes from the client FCM SDKs.
           // var registrationToken = 'cavpQzvnQqM:APA91bE1N5ecoWIt3gB13YVwGH7-2zlnKC2f1oDRoow7v1MPICiJBZ4y1TYwFqSaRiEKSqi4toPDpwOhLSSTohZQyDuIBV-098XOG0jpZRnK6kBLjuytl7xDBwkXZQNeeH-AH3MwOQHF';
@@ -226,6 +226,7 @@ ref.on("value", function(snapshot) {
       else{
         Users.findById(id_result, function(error, user) { 
           console.log("inside findById")
+          // console.log(id_result)
           console.log(user);
           
           // return res.json(user);
