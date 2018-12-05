@@ -167,6 +167,7 @@ ref.on("value", function(snapshot) {
               // time: '2:45'
               // "user": user.toString(),
               'id': "5be97090298f43633d6a3fed",
+              'id': "5bd910c1dc97ff7902ff8cfd",
               'email': "asdasd",
               'name': "user.name",
               'photo': "user.photo",
@@ -195,7 +196,8 @@ ref.on("value", function(snapshot) {
               // score: '850',
               // time: '2:45'
               // "user": user.toString(),
-              'id': "5be97090298f43633d6a3fed",
+              // 'id': "5be97090298f43633d6a3fed",
+              'id': "5bd910c1dc97ff7902ff8cfd",
               'email': "asdasd",
               'name': "user.name",
               'photo': "user.photo",
