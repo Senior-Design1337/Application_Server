@@ -24,8 +24,8 @@ var db = admin.database();
 var ref = db.ref();
 var ref_signup = db.ref("photo_signup");
 
-const pythonversion = "python3.6"
-// const pythonversion = "python3"
+// const pythonversion = "python3.6"
+const pythonversion = "python3"
 
 ref_signup.on("value", snapshot => {
 
