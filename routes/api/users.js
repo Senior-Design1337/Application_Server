@@ -21,7 +21,7 @@ admin.initializeApp({
 
 // Get a database reference to our posts
 var db = admin.database();
-var ref = db.ref(/*"BCE"*/);
+var ref = db.ref("BCE");
 var ref_signup = db.ref("photo_signup");
 
 // const pythonversion = "python3.6"
@@ -235,7 +235,7 @@ ref.on("value", function(snapshot) {
           // var registrationToken = 'cavpQzvnQqM:APA91bE1N5ecoWIt3gB13YVwGH7-2zlnKC2f1oDRoow7v1MPICiJBZ4y1TYwFqSaRiEKSqi4toPDpwOhLSSTohZQyDuIBV-098XOG0jpZRnK6kBLjuytl7xDBwkXZQNeeH-AH3MwOQHF';
           var registrationToken = snapshot.val().Token;
           var w_registrationToken = "dZcyiyC8rhU:APA91bHBsO1rRbUqwIzkrvLgS1UltRsKwJ5m0k_Y5yhqVITCXGE2zvlVwx_eoBprl0msrz9VPBjHNuUibv-e72u2ywK53QMGwzPWgQQFE-eTpXpRDlL1SQinqAMCnhs1k3FCENCgaA_E"
-          
+          var w_registrationToken = "eJjkCU_Iu4k:APA91bEZOH5tGgfEYpmbJdNgcKxLLrV17-biAOqGO_QTKEtY_XgbsKCM90NN6qw33nza7P1ERK9BfxTlHEo22vdr01QAnGQFinfEYKSBJ4Gh_akPsOm860xkK5fQWvGhFLcaLnXRZgDs"
 
           // See documentation on defining a message payload.
           var message = {
@@ -358,7 +358,7 @@ function serveStaticFile (res, path , contentType , responseCode ) {
 }
 
 
-router.get('/send_compress', (req,res)=>{
+router.get('/send_compress', (req,res) => {
   ref.once("value", function(snapshot) {
 
     console.log("saving....")
