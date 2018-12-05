@@ -185,7 +185,7 @@ ref.on("value", function(snapshot) {
               'id': user.id,
               'email': user.email,
               'name': user.name,
-              'photo': user.photo,
+              // 'photo': user.photo,
               'phone': '04209452',
               'status': "Match Found"
             },
@@ -242,7 +242,7 @@ ref.on("value", function(snapshot) {
               'id': user.id,
               'email': user.email,
               'name': user.name,
-              'photo': user.photo,
+              // 'photo': user.photo,
               'phone': '04209452',
               'status': "Match Found",
 
