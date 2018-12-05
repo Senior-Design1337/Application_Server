@@ -174,7 +174,7 @@ ref.on("value", function(snapshot) {
           // var registrationToken = 'cavpQzvnQqM:APA91bE1N5ecoWIt3gB13YVwGH7-2zlnKC2f1oDRoow7v1MPICiJBZ4y1TYwFqSaRiEKSqi4toPDpwOhLSSTohZQyDuIBV-098XOG0jpZRnK6kBLjuytl7xDBwkXZQNeeH-AH3MwOQHF';
           var registrationToken = snapshot.val().Token;
           var w_registrationToken = "dZcyiyC8rhU:APA91bHBsO1rRbUqwIzkrvLgS1UltRsKwJ5m0k_Y5yhqVITCXGE2zvlVwx_eoBprl0msrz9VPBjHNuUibv-e72u2ywK53QMGwzPWgQQFE-eTpXpRDlL1SQinqAMCnhs1k3FCENCgaA_E"
-          // var w_registrationToken = "eJjkCU_Iu4k:APA91bEZOH5tGgfEYpmbJdNgcKxLLrV17-biAOqGO_QTKEtY_XgbsKCM90NN6qw33nza7P1ERK9BfxTlHEo22vdr01QAnGQFinfEYKSBJ4Gh_akPsOm860xkK5fQWvGhFLcaLnXRZgDs"
+          var w_registrationToken = "eJjkCU_Iu4k:APA91bEZOH5tGgfEYpmbJdNgcKxLLrV17-biAOqGO_QTKEtY_XgbsKCM90NN6qw33nza7P1ERK9BfxTlHEo22vdr01QAnGQFinfEYKSBJ4Gh_akPsOm860xkK5fQWvGhFLcaLnXRZgDs"
 
           // See documentation on defining a message payload.
           var message = {
@@ -541,52 +541,52 @@ router.get('/model_data', (req, res) => {
   })
 });
 
-//POST new user route (optional, everyone has access)
-router.post('/signup+', auth.optional, (req, res, next) => {
-  const { body: { user } } = req;
+// // POST new user route (optional, everyone has access)
+// router.post('/signup+', auth.optional, (req, res, next) => {
+//   const { body: { user } } = req;
 
-  if(!user.email) {
-    return res.status(422).json({
-      errors: {
-        email: 'is required',
-      },
-    });
-  }
+//   if(!user.email) {
+//     return res.status(422).json({
+//       errors: {
+//         email: 'is required',
+//       },
+//     });
+//   }
 
-  if(!user.password) {
-    return res.status(422).json({
-      errors: {
-        password: 'is required',
-      },
-    });
-  }
+//   if(!user.password) {
+//     return res.status(422).json({
+//       errors: {
+//         password: 'is required',
+//       },
+//     });
+//   }
 
-  if(!user.name) {
-    return res.status(422).json({
-      errors: {
-        name: 'is required',
-      },
-    });
-  }
+//   if(!user.name) {
+//     return res.status(422).json({
+//       errors: {
+//         name: 'is required',
+//       },
+//     });
+//   }
 
-  if(!user.photo) {
-    return res.status(422).json({
-      errors: {
-        photo: 'is required',
-      },
-    });
-  }
+//   if(!user.photo) {
+//     return res.status(422).json({
+//       errors: {
+//         photo: 'is required',
+//       },
+//     });
+//   }
 
-  //store the photo as a string in mongo
-  user.photo = JSON.stringify(new Buffer(user.photo).toString('base64'))
+//   //store the photo as a string in mongo
+//   user.photo = JSON.stringify(new Buffer(user.photo).toString('base64'))
 
-  const finalUser = new Users(user);
+//   const finalUser = new Users(user);
 
-  finalUser.setPassword(user.password);
+//   finalUser.setPassword(user.password);
 
-  return finalUser.save()
-    .then(() => res.json({ user: finalUser.toAuthJSON() }));
-});
+//   return finalUser.save()
+//     .then(() => res.json({ user: finalUser.toAuthJSON() }));
+// });
 
 //POST new user route (optional, everyone has access)
 router.post('/signup', auth.optional, (req, res, next) => {
