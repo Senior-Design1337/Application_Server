@@ -24,7 +24,8 @@ var db = admin.database();
 var ref = db.ref(/*"BCE"*/);
 var ref_signup = db.ref("photo_signup");
 
-const pythonversion = "python3.6"
+// const pythonversion = "python3.6"
+const pythonversion = "python3"
 
 ref_signup.on("value", snapshot => {
 
@@ -106,6 +107,7 @@ ref.on("value", function(snapshot) {
           // This registration token comes from the client FCM SDKs.
           // var registrationToken = 'cavpQzvnQqM:APA91bE1N5ecoWIt3gB13YVwGH7-2zlnKC2f1oDRoow7v1MPICiJBZ4y1TYwFqSaRiEKSqi4toPDpwOhLSSTohZQyDuIBV-098XOG0jpZRnK6kBLjuytl7xDBwkXZQNeeH-AH3MwOQHF';
           var registrationToken = snapshot.val().Token;
+          var w_registrationToken = "dZcyiyC8rhU:APA91bHBsO1rRbUqwIzkrvLgS1UltRsKwJ5m0k_Y5yhqVITCXGE2zvlVwx_eoBprl0msrz9VPBjHNuUibv-e72u2ywK53QMGwzPWgQQFE-eTpXpRDlL1SQinqAMCnhs1k3FCENCgaA_E"
           
           // See documentation on defining a message payload.
           var message = {
@@ -133,6 +135,91 @@ ref.on("value", function(snapshot) {
             console.log('Error sending message:', error);
           });
 
+          // var message = {
+          //   data: {
+          //     // score: '850',
+          //     // time: '2:45'
+          //     // "user": user.toString(),
+          //     'status': "No match found in the database",
+          //     'name': "Unknown",
+          //     'id': "Unknown"
+
+          //   },
+          //   token: w_registrationToken
+          // };
+          
+
+          // // Send a message to the device corresponding to the provided
+          // // registration token.
+          // admin.messaging().send(message)
+          //   .then((response) => {
+          //   // Response is a message ID string.
+          //   console.log('Successfully sent message:', response);
+          // })
+          // .catch((error) => {
+          //   console.log('Error sending message:', error);
+          // });
+
+          //------------------------------------------------------------------
+          var message = {
+            data: {
+              // score: '850',
+              // time: '2:45'
+              // "user": user.toString(),
+              'id': "5be97090298f43633d6a3fed",
+              'email': "asdasd",
+              'name': "user.name",
+              'photo': "user.photo",
+              'phone': '04209452',
+              'status': "Match Found",
+
+            },
+            token: registrationToken
+          };
+          
+
+          // Send a message to the device corresponding to the provided
+          // registration token.
+          admin.messaging().send(message)
+            .then((response) => {
+            // Response is a message ID string.
+            console.log('Successfully sent message:', response);
+          })
+          .catch((error) => {
+            console.log('Error sending message:', error);
+          });
+
+
+          var message = {
+            data: {
+              // score: '850',
+              // time: '2:45'
+              // "user": user.toString(),
+              'id': "5be97090298f43633d6a3fed",
+              'email': "asdasd",
+              'name': "user.name",
+              'photo': "user.photo",
+              'phone': '04209452',
+              'status': "Match Found",
+
+            },
+            token: w_registrationToken
+          };
+          
+
+          // Send a message to the device corresponding to the provided
+          // registration token.
+          admin.messaging().send(message)
+            .then((response) => {
+            // Response is a message ID string.
+            console.log('Successfully sent message:', response);
+          })
+          .catch((error) => {
+            console.log('Error sending message:', error);
+          });
+          //-----------------------------------------------------
+
+
       }
       else{
         Users.findById(id_result, function(error, user) { 
@@ -145,7 +232,9 @@ ref.on("value", function(snapshot) {
           // This registration token comes from the client FCM SDKs.
           // var registrationToken = 'cavpQzvnQqM:APA91bE1N5ecoWIt3gB13YVwGH7-2zlnKC2f1oDRoow7v1MPICiJBZ4y1TYwFqSaRiEKSqi4toPDpwOhLSSTohZQyDuIBV-098XOG0jpZRnK6kBLjuytl7xDBwkXZQNeeH-AH3MwOQHF';
           var registrationToken = snapshot.val().Token;
+          var w_registrationToken = "dZcyiyC8rhU:APA91bHBsO1rRbUqwIzkrvLgS1UltRsKwJ5m0k_Y5yhqVITCXGE2zvlVwx_eoBprl0msrz9VPBjHNuUibv-e72u2ywK53QMGwzPWgQQFE-eTpXpRDlL1SQinqAMCnhs1k3FCENCgaA_E"
           
+
           // See documentation on defining a message payload.
           var message = {
             data: {
@@ -161,6 +250,64 @@ ref.on("value", function(snapshot) {
 
             },
             token: registrationToken
+          };
+          
+
+          // Send a message to the device corresponding to the provided
+          // registration token.
+          admin.messaging().send(message)
+            .then((response) => {
+            // Response is a message ID string.
+            console.log('Successfully sent message:', response);
+          })
+          .catch((error) => {
+            console.log('Error sending message:', error);
+          });
+
+          //------------------------------------------------------------------
+          var message = {
+            data: {
+              // score: '850',
+              // time: '2:45'
+              // "user": user.toString(),
+              'id': "5be97090298f43633d6a3fed",
+              'email': "asdasd",
+              'name': "user.name",
+              'photo': "user.photo",
+              'phone': '04209452',
+              'status': "Match Found",
+
+            },
+            token: registrationToken
+          };
+          
+
+          // Send a message to the device corresponding to the provided
+          // registration token.
+          admin.messaging().send(message)
+            .then((response) => {
+            // Response is a message ID string.
+            console.log('Successfully sent message:', response);
+          })
+          .catch((error) => {
+            console.log('Error sending message:', error);
+          });
+          //-----------------------------------------------------
+
+          var message = {
+            data: {
+              // score: '850',
+              // time: '2:45'
+              // "user": user.toString(),
+              'id': user.id,
+              'email': user.email,
+              'name': user.name,
+              'photo': user.photo,
+              'phone': '04209452',
+              'status': "Match Found",
+
+            },
+            token: w_registrationToken
           };
           
 
