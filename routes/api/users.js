@@ -29,18 +29,26 @@ const pythonversion = "python3"
 
 ref_signup.on("value", snapshot => {
 
-if(snapshot.val().ID!=null  && snapshot.val().photo!=null){
+console.log(snapshot.val().id)
+console.log(snapshot.val().photos)
+
+for(index in snapshot.val().photos){
+  console.log("index: " + snapshot.val().photos[index])
+}
+
+
+if(snapshot.val().id!=null  && snapshot.val().photos!=null){
     console.log("saving....")
     console.log(snapshot.val())
-    dir = __dirname.replace(/\/routes\/api/, '/models/known_people/' + snapshot.val().ID)
+    dir = __dirname.replace(/\/routes\/api/, '/models/known_people/' + snapshot.val().id)
     
     if (!fs.existsSync(dir)){
       fs.mkdirSync(dir);
     }
     // save pictures in models/known_people directory
-    for(index in snapshot.val().photo){
+    for(index in snapshot.val().photos){
       // console.log(dir + "/" + new Date().getTime() * Math.random() + ".png")
-      fs.writeFile(dir + "/" + new Date().getTime() * Math.random() + ".png", snapshot.val().photo[index], 'base64', function(err) {
+      fs.writeFile(dir + "/" + new Date().getTime() * Math.random() + ".png", snapshot.val().photos[index], 'base64', function(err) {
         if(err)
           console.log(err);
       });
@@ -61,8 +69,8 @@ if(snapshot.val().ID!=null  && snapshot.val().photo!=null){
 
 
     // add 1st photo to user's profile
-    Users.update({_id: snapshot.val().ID}, {
-      photo: snapshot.val().photo[0]
+    Users.update({_id: snapshot.val().id}, {
+      photo: snapshot.val().photos[0]
     }, function(err, affected, resp) {
      console.log(resp);
     })
@@ -163,10 +171,20 @@ ref.on("value", function(snapshot) {
       }
       else{
         Users.findById(id_result, function(error, user) { 
-          console.log("inside findById")
-          // console.log(id_result)
-          console.log(user);
           
+          console.log("inside findById")
+          console.log(id_result)
+
+          console.log("reeeeeeeeeeeeeee")
+
+          console.log(user)
+          if(error){
+            console.log(error)
+          }
+          else if(user == null){
+            console.log("no user was found")
+          }
+          else{
           // return res.json(user);
 
           //SEND DATA
@@ -261,8 +279,9 @@ ref.on("value", function(snapshot) {
           .catch((error) => {
             console.log('Error sending message:', error);
           });
-
+        }
         })
+      
       }
       // res.end();
     });
