@@ -30,11 +30,11 @@ const pythonversion = "python3"
 ref_signup.on("value", snapshot => {
 
 console.log(snapshot.val().id)
-console.log(snapshot.val().photos)
+// console.log(snapshot.val().photos)
 
-for(index in snapshot.val().photos){
-  console.log("index: " + snapshot.val().photos[index])
-}
+// for(index in snapshot.val().photos){
+//   console.log("index: " + snapshot.val().photos[index])
+// }
 
 
 if(snapshot.val().id!=null  && snapshot.val().photos!=null){
