@@ -15,7 +15,7 @@ try:
     path = regex.sub('/models/known_people', os.path.abspath(__file__))
     
     if len(os.listdir(path)) < 1:
-        raise Exception(f"no files in the directory {path}")
+        raise Exception("no files in the directory {}".format(path))
 
 
     known_face_encodings = []
