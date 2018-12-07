@@ -54,6 +54,7 @@ if(snapshot.val().id!=null  && snapshot.val().photos!=null){
       });
     }
 
+    console.log("extracting facial features...")
     // spawn child process to extract facial features then delete files in models/known_people
     const pythonProcess = cp.spawn(pythonversion,[__dirname + '/scripts/add_to_img_pool.py']);
     
@@ -72,8 +73,9 @@ if(snapshot.val().id!=null  && snapshot.val().photos!=null){
     Users.update({_id: snapshot.val().id}, {
       photo: snapshot.val().photos[0]
     }, function(err, affected, resp) {
-     console.log(resp);
+     console.log("response" + resp);
     })
+    console.log("addeeeed")
 
 
   }
