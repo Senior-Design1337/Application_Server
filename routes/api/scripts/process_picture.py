@@ -26,7 +26,6 @@ try:
 
 
     new_face_encoding = toNParray(sys.argv[1].replace('\n', '').replace(',', ''))
-
     
     # See if the face is a match for the known face(s)
     matches = face_recognition.compare_faces(data["encodings"], new_face_encoding, 0.5)

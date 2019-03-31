@@ -3,6 +3,11 @@ fs = require("fs");
 
 app = express();
 
+console.log(__dirname);
+
+app.use(express.static(__dirname))
+
+
 function serveStaticFile (res, path , contentType , responseCode ) {
     if (!responseCode) responseCode = 200 ;
     fs.readFile (__dirname +'/public'+path, function (err,data) {

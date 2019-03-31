@@ -85,16 +85,16 @@ try:
         f.write(pickle.dumps(data))
 
 
-    # DELETE THE FILES in path (NOTE: dont know if parallel requests to run "add_to_img_pool.py" would result in parallel access of the file; and therefore, resulting in a race condition where images are deleted that have not been added yet)
-    for the_file in os.listdir(path):
-        file_path = os.path.join(path, the_file)
-        try:
-            if os.path.isfile(file_path):
-                os.unlink(file_path)
+    # # DELETE THE FILES in path (NOTE: dont know if parallel requests to run "add_to_img_pool.py" would result in parallel access of the file; and therefore, resulting in a race condition where images are deleted that have not been added yet)
+    # for the_file in os.listdir(path):
+    #     file_path = os.path.join(path, the_file)
+    #     try:
+    #         if os.path.isfile(file_path):
+    #             os.unlink(file_path)
 
-            elif os.path.isdir(file_path): shutil.rmtree(file_path)
-        except Exception as e:
-            print(e)
+    #         elif os.path.isdir(file_path): shutil.rmtree(file_path)
+    #     except Exception as e:
+    #         print(e)
 
     print("updated the list of known encodings...")
     sys.stdout.flush()

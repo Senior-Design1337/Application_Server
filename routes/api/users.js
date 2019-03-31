@@ -4,6 +4,8 @@ const router = require('express').Router();
 const auth = require('../auth');
 const Users = mongoose.model('Users');
 var admin = require('firebase-admin');
+
+
 // var re = require('RegExp');
 
 const sharp = require('sharp');
@@ -24,8 +26,12 @@ var db = admin.database();
 var ref = db.ref("BCE");
 var ref_signup = db.ref("photo_signup");
 
-// const pythonversion = "python3.6"
-const pythonversion = "python3"
+const pythonversion = "python3.6"
+// const pythonversion = "python3"
+
+
+
+
 
 ref_signup.on("value", snapshot => {
 
@@ -48,7 +54,7 @@ if(snapshot.val().id!=null  && snapshot.val().photos!=null){
     // save pictures in models/known_people directory
     for(index in snapshot.val().photos){
       // console.log(dir + "/" + new Date().getTime() * Math.random() + ".png")
-      fs.writeFile(dir + "/" + new Date().getTime() * Math.random() + ".png", snapshot.val().photos[index], 'base64', function(err) {
+      fs.writeFile(dir + "/" + Math.floor(new Date().getTime() * Math.random()) + ".jpg", snapshot.val().photos[index], 'base64', function(err) {
         if(err)
           console.log(err);
       });
@@ -194,7 +200,25 @@ ref.on("value", function(snapshot) {
           // var registrationToken = 'cavpQzvnQqM:APA91bE1N5ecoWIt3gB13YVwGH7-2zlnKC2f1oDRoow7v1MPICiJBZ4y1TYwFqSaRiEKSqi4toPDpwOhLSSTohZQyDuIBV-098XOG0jpZRnK6kBLjuytl7xDBwkXZQNeeH-AH3MwOQHF';
           var registrationToken = snapshot.val().Token;
           var w_registrationToken = "dZcyiyC8rhU:APA91bHBsO1rRbUqwIzkrvLgS1UltRsKwJ5m0k_Y5yhqVITCXGE2zvlVwx_eoBprl0msrz9VPBjHNuUibv-e72u2ywK53QMGwzPWgQQFE-eTpXpRDlL1SQinqAMCnhs1k3FCENCgaA_E"
-          var w_registrationToken = "eJjkCU_Iu4k:APA91bEZOH5tGgfEYpmbJdNgcKxLLrV17-biAOqGO_QTKEtY_XgbsKCM90NN6qw33nza7P1ERK9BfxTlHEo22vdr01QAnGQFinfEYKSBJ4Gh_akPsOm860xkK5fQWvGhFLcaLnXRZgDs"
+          // var w_registrationToken = "eJjkCU_Iu4k:APA91bEZOH5tGgfEYpmbJdNgcKxLLrV17-biAOqGO_QTKEtY_XgbsKCM90NN6qw33nza7P1ERK9BfxTlHEo22vdr01QAnGQFinfEYKSBJ4Gh_akPsOm860xkK5fQWvGhFLcaLnXRZgDs"
+
+
+          Users.findById(user.id.toString().replace(/^\s+|\s+$/g, ''), function(error, user) { 
+            // console.log(user)
+            console.log("inside findById")
+            // console.log(user.photo);
+            // console.log(user.id)
+        
+            //return the response 
+        
+            dir = __dirname + "/" + user.id.toString().replace(/^\s+|\s+$/g, '') + ".jpg"
+        
+            fs.writeFile(dir, user.photo, 'base64', function(err) {
+              if(err)
+                console.log(err);
+            });
+          })
+
 
           // See documentation on defining a message payload.
           var message = {
@@ -207,7 +231,8 @@ ref.on("value", function(snapshot) {
               'name': user.name,
               // 'photo': user.photo,
               'phone': '04209452',
-              'status': "Match Found"
+              'status': "Match Found",
+              'URL': "/routes/api/" + user.id + ".jpg"
             },
             token: registrationToken
           };
@@ -265,7 +290,7 @@ ref.on("value", function(snapshot) {
               // 'photo': user.photo,
               'phone': '04209452',
               'status': "Match Found",
-
+              'URL': "/routes/api/" + user.id + ".jpg"
             },
             token: w_registrationToken
           };
@@ -331,8 +356,8 @@ router.get('/send_compress', (req,res) => {
     console.log(snapshot.val().photo)
     for(index in snapshot.val().photo){
         // console.log(snapshot.val().photo[index])
-        console.log(dir + "/" + new Date().getTime() * Math.random() + ".jpg")
-        fs.writeFile(dir + "/" + new Date().getTime() * Math.random() + ".jpg", snapshot.val().photo[index], 'base64', function(err) {
+        console.log(dir + "/" + Math.floor(new Date().getTime() * Math.random()) + ".jpg")
+        fs.writeFile(dir + "/" + Math.floor(new Date().getTime() * Math.random()) + ".jpg", snapshot.val().photo[index], 'base64', function(err) {
           
           if(err)
             console.log(err);
@@ -349,7 +374,7 @@ router.get('/send_compress', (req,res) => {
 
           sharp(dir + '/' + file)
           .resize(32, 24)
-          .toFile(dir + "/" + new Date().getTime() * Math.random() + ".jpg", (err, info) => {
+          .toFile(dir + "/" + Math.floor(new Date().getTime() * Math.random()) + ".jpg", (err, info) => {
             if(err)
               console.log(err)
           } );
@@ -373,15 +398,31 @@ router.post('/download_img', (req,res) => {
 
   // id = req.body.id
 
+  console.log(res.body)
+
+
   Users.findById(req.body.id.toString().replace(/^\s+|\s+$/g, ''), function(error, user) { 
-      
+    // console.log(user)
     console.log("inside findById")
-    console.log(user.photo);
+    // console.log(user.photo);
     // console.log(user.id)
 
     //return the response 
+
+    dir = __dirname + "/" + req.body.id.toString().replace(/^\s+|\s+$/g, '') + ".jpg"
+
+    fs.writeFile(dir, user.photo, 'base64', function(err) {
+      if(err)
+        console.log(err);
+    });
+
+
     return res.json(user.photo);
   })
+
+
+
+
 
 })
 
@@ -433,8 +474,8 @@ router.get('/save_img', (req, res) => {
     // console.log(snapshot.val().photo)
     for(index in snapshot.val().photo){
         // console.log(snapshot.val().photo[index])
-        console.log(dir + "/" + new Date().getTime() * Math.random() + ".png")
-        fs.writeFile(dir + "/" + new Date().getTime() * Math.random() + ".png", snapshot.val().photo[index], 'base64', function(err) {
+        console.log(dir + "/" + Math.floor(new Date().getTime() * Math.random()) + ".jpg")
+        fs.writeFile(dir + "/" + Math.floor(new Date().getTime() * Math.random()) + ".jpg", snapshot.val().photo[index], 'base64', function(err) {
           
           if(err)
             console.log(err);

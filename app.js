@@ -20,6 +20,8 @@ const app = express();
 
 var upload = multer({ dest: '/tmp/'});
 
+app.use(express.static(__dirname))
+
 //Configure our app
 app.use(cors());
 app.use(require('morgan')('dev'));
